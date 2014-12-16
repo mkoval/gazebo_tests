@@ -10,7 +10,6 @@ int main() {
     static std::string const model_type = "model://youbot";
     static int const num_models = 100;
 
-    // This is black magic we cobbled together from the Gazebo source code.
     physics::WorldPtr world;
     sdf::SDFPtr sdf(new sdf::SDF);
     if (!sdf::init(sdf)) {
@@ -30,13 +29,14 @@ int main() {
     gazebo::runWorld(world, 1);
 
     for (int i = 0; i < num_models; ++i){
-        // Load the model from disk.
-        std::string const model_path = gazebo::common::ModelDatabase::Instance()->GetModelFile(model_type);
+        // Resolve a model:// URI to a local path.
         if (model_path.empty()) {
             throw std::runtime_error(boost::str(
                 boost::format("Unable to find model of type '%s'.") % model_type));
         }
 
+        // Load the model into SDF so we can change its name before adding it
+        // to the environment.
         sdf::SDFPtr model_sdf = boost::make_shared<sdf::SDF>();
         if (!sdf::init(model_sdf)) {
             throw std::runtime_error("Failed initalizing SDF.");
