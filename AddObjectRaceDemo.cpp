@@ -27,9 +27,9 @@ int main() {
 
     gazebo::physics::load_world(world, sdf->root->GetElement("world"));
     gazebo::physics::init_world(world);
-	gazebo::runWorld(world, 1);
+    gazebo::runWorld(world, 1);
 
-	for (int i = 0; i < num_models; ++i){
+    for (int i = 0; i < num_models; ++i){
         // Load the model from disk.
         std::string const model_path = gazebo::common::ModelDatabase::Instance()->GetModelFile(model_type);
         if (model_path.empty()) {
@@ -62,6 +62,6 @@ int main() {
         } else {
             std::cout << (boost::format("FAILED  creating model '%s'.") % name) << std::endl;
         }
-	}
+    }
     return 0;
 }
