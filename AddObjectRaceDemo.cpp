@@ -30,6 +30,7 @@ int main() {
 
     for (int i = 0; i < num_models; ++i){
         // Resolve a model:// URI to a local path.
+        std::string const model_path = gazebo::common::ModelDatabase::Instance()->GetModelFile(model_type);
         if (model_path.empty()) {
             throw std::runtime_error(boost::str(
                 boost::format("Unable to find model of type '%s'.") % model_type));
